@@ -35,8 +35,11 @@ Game <- map(.x = x %>%
   map('result') %>%
   bind_rows()
 
+#Select The Pitcher you want
 Game<- Game %>% filter(matchup.pitcher.fullName == "Bowden Francis")
 
+
+#New Variables to make things easier later
 Game$Pitcher<- Game$matchup.pitcher.fullName 
 Game$Date<- Game$game_date
 Game<- subset(Game, !is.na(details.type.code))
@@ -58,7 +61,7 @@ Game$Outs<- ifelse(Game$details.isOut == TRUE & Game$result.event %in% c("Ground
 
 Game$HardHit<- ifelse(Game$details.isInPlay == TRUE & Game$hitData.launchSpeed > 95 , 1, 0)
 
-#Game$Count<- paste(Game$count.balls.end , Game$count.strikes.end, sep = "-")
+#StrikeZone 
 Left <- -8.5/12
 Right <- 8.5/12
 Bottom <- 18.29/12
@@ -67,7 +70,6 @@ Top <- 44.08/12
 # This is to Make a 3x3 Strike Zone (Vertical and Horizontal Lines in Zone)
 Width <- (Right - Left) / 3
 Height <- (Top - Bottom) / 3
-#Data<-  df %>% filter(matchup.pitcher.fullName == "Brady Singer")
 
 ui <- fluidPage(
   column(10, offset = 1,
